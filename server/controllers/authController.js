@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import { compare } from "bcrypt";
-import { renameSync, unlink } from "fs";
+import { renameSync, unlink, unlinkSync } from "fs";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -144,7 +144,7 @@ export const addProfileImage = async (req, res, next) => {
    
     const date = Date.now(); 
 
-    let fileName = "uploads/profiles" + date + req.file.originalname;
+    let fileName = "uploads/profiles/" + date + req.file.originalname;
     renameSync(req.file.path, fileName);
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -165,9 +165,23 @@ export const addProfileImage = async (req, res, next) => {
 
 export const removeProfileImage = async (req, res, next) => {
   try {
-   
+   const {userId} = req;
+   const user = await User.findById(userId);
+
+   if(!user) {
+    return res.status(404).senc("User nto found.");
+   }
+
+   if(user.image) {
+    unlinkSync(user.image);
+   }
+
+   user.image = null;
+   await user.save();
+
+   return res.status(200).send("profile image removed successfully")
   } catch (err) {
-    console.log(err);
+    console.log({err});
     return res.status(500).send("Internal erver error!");
   }
 };

@@ -11,6 +11,8 @@ import { validators } from "tailwind-merge";
 import { apiClient } from "@/lib/api-client";
 import {
   ADD_PROFILE_IMAGE_ROUTE,
+  HOST,
+  REMOVE_PROFILE_IMAGE_ROUTE,
   UPDATE_PROFILE_ROUTE
 } from "@/utils/constants";
 
@@ -30,7 +32,16 @@ const Profile = () => {
       setLastName(userInfo.lastName);
       setSelectedColor(userInfo.color);
     }
+    if(userInfo.image) {
+      setImage(`${HOST}/${userInfo.image}`);
+    //   const imageUrl = `${HOST}/${userInfo.image}`;
+    // console.log("Image URL:", imageUrl); // Debugging
+    // setImage(imageUrl);
+    }
   }, [userInfo]);
+
+  
+
 
   const validateProfile = () => {
     if (!firstName) {
@@ -107,7 +118,26 @@ const Profile = () => {
     }
   };
 
-  const handleDeleteImage = async () => {};
+  const handleDeleteImage = async () => {
+    try {
+      const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, {
+        withCredentials: true,
+      });
+      if(response.status===200) {
+        setUserInfo({...userInfo, image: null});
+        toast.success("Image removed successfully.");
+        setImage(null);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
+
+  useEffect(() => {
+    console.log("Image URL in state:", image);
+  }, [image]);
+  
 
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
@@ -123,13 +153,14 @@ const Profile = () => {
             onMouseLeave={() => setHovered(false)}
           >
             <Avatar className="h-32 w-32 md:w-48 md:h-48 rounded-full overflow-hidden ">
-              {image ? (
+              {image ? 
                 <AvatarImage
                   src={image}
+                  
                   alt="User Avatar"
                   className="object-cover w-full h-full bg-black"
                 />
-              ) : (
+               : (
                 <div
                   className={`uppercase h-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center rounded-full ${getColor(
                     selectedColor
