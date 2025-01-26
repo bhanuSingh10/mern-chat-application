@@ -1,7 +1,8 @@
-import { clsx } from "clsx"; // Utility for conditional class merging
-import { twMerge } from "tailwind-merge"; // Utility for merging Tailwind CSS classes
+import { clsx } from "clsx"; 
+import { twMerge } from "tailwind-merge"; 
+import animationData from "@/assets/animation"
 
-// Utility function to merge classes with Tailwind-merge
+
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -21,3 +22,10 @@ export const getColor = (color) => {
   }
   return colors[0]; // Fallback to the first color if out of range
 };
+
+
+export const animationDefaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData,
+}

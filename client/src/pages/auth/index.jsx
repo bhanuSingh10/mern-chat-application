@@ -13,12 +13,10 @@ import { useAppStore } from "@/store";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const {setUserInfo} = useAppStore();
+  const { setUserInfo } = useAppStore();
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-
-
 
   const validateSignup = () => {
     if (!email.length) {
@@ -45,7 +43,6 @@ const Auth = () => {
       toast.error("Password is require!");
       return false;
     }
-    
 
     return true;
   };
@@ -53,62 +50,53 @@ const Auth = () => {
   const handleLogin = async () => {
     if (validateLogin()) {
       try {
-        const response = await apiClient.post(LOGIN_ROUTE, {
-          email: email.trim(),
-          password: password.trim(),
-
-        }, {withCredentials: true});
+        const response = await apiClient.post(
+          LOGIN_ROUTE,
+          {
+            email: email.trim(),
+            password: password.trim()
+          },
+          { withCredentials: true }
+        );
         console.log("Login successful:", response.data);
         toast.success("Login successful!");
 
-        if(response.data.user.id) {
-          setUserInfo(response.data.user)
-          if(response.data.user.profileSetup) navigate("/chat");
+        if (response.data.user.id) {
+          setUserInfo(response.data.user);
+          if (response.data.user.profileSetup) navigate("/chat");
           else navigate("/profile");
         }
       } catch (error) {
         console.error("Login failed:", error.response?.data || error.message);
         toast.error(error.response?.data || "An error occurred during login.");
-      };
-
+      }
     }
   };
-
-  // const handleSignup = async () => {
-  //   if (validateSignup()) {
-  //     const response = await apiClient.post(SIGNUP_ROUTE, { email, password });
-  //     console.log({ response });
-  //   }
-  // };
 
   const handleSignup = async () => {
     if (validateSignup()) {
       try {
-        const response = await apiClient.post(SIGNUP_ROUTE, {
-          email: email.trim(),
-          password: password.trim(),
-
-        }, {withCredentials: true});
+        const response = await apiClient.post(
+          SIGNUP_ROUTE,
+          {
+            email: email.trim(),
+            password: password.trim()
+          },
+          { withCredentials: true }
+        );
         console.log("Signup successful:", response.data);
         toast.success("Signup successful!");
 
-        
-      if(response.status==201) {
-        setUserInfo(response.data.user)
-        navigate("/profile");
-      }
+        if (response.status == 201) {
+          setUserInfo(response.data.user);
+          navigate("/profile");
+        }
       } catch (error) {
         console.error("Signup failed:", error.response?.data || error.message);
         toast.error(error.response?.data || "An error occurred during signup.");
       }
-
-      
-      
     }
-
-    
   };
-  
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">

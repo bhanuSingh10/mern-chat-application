@@ -141,8 +141,8 @@ export const addProfileImage = async (req, res, next) => {
     if (!req.file) {
       return res.status(400).send("File is required!");
     }
-   
-    const date = Date.now(); 
+
+    const date = Date.now();
 
     let fileName = "uploads/profiles/" + date + req.file.originalname;
     renameSync(req.file.path, fileName);
@@ -151,10 +151,10 @@ export const addProfileImage = async (req, res, next) => {
       req.userId,
       { image: fileName },
       { new: true, runValidators: true }
-    ); 
+    );
 
     return res.status(200).json({
-      image: updatedUser.image, 
+      image: updatedUser.image
     });
   } catch (err) {
     console.log(err);
@@ -162,26 +162,36 @@ export const addProfileImage = async (req, res, next) => {
   }
 };
 
-
 export const removeProfileImage = async (req, res, next) => {
   try {
-   const {userId} = req;
-   const user = await User.findById(userId);
+    const { userId } = req;
+    const user = await User.findById(userId);
 
-   if(!user) {
-    return res.status(404).senc("User nto found.");
-   }
+    if (!user) {
+      return res.status(404).senc("User nto found.");
+    }
 
-   if(user.image) {
-    unlinkSync(user.image);
-   }
+    if (user.image) {
+      unlinkSync(user.image);
+    }
 
-   user.image = null;
-   await user.save();
+    user.image = null;
+    await user.save();
 
-   return res.status(200).send("profile image removed successfully")
+    return res.status(200).send("profile image removed successfully");
   } catch (err) {
-    console.log({err});
+    console.log({ err });
+    return res.status(500).send("Internal erver error!");
+  }
+};
+
+export const logOut = async (req, res, next) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1, secure: true, sameSite: "None" });
+
+    return res.status(200).send("Logout successfully.");
+  } catch (err) {
+    console.log({ err });
     return res.status(500).send("Internal erver error!");
   }
 };

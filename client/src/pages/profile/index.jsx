@@ -32,16 +32,13 @@ const Profile = () => {
       setLastName(userInfo.lastName);
       setSelectedColor(userInfo.color);
     }
-    if(userInfo.image) {
+    if (userInfo.image) {
       setImage(`${HOST}/${userInfo.image}`);
-    //   const imageUrl = `${HOST}/${userInfo.image}`;
-    // console.log("Image URL:", imageUrl); // Debugging
-    // setImage(imageUrl);
+      //   const imageUrl = `${HOST}/${userInfo.image}`;
+      // console.log("Image URL:", imageUrl); // Debugging
+      // setImage(imageUrl);
     }
   }, [userInfo]);
-
-  
-
 
   const validateProfile = () => {
     if (!firstName) {
@@ -95,49 +92,42 @@ const Profile = () => {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    console.log("file",{ file });
+    console.log("file", { file });
     if (file) {
-
       const formData = new FormData();
       formData.append("profile-image", file);
       const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE, formData, {
-        withCredentials: true,
+        withCredentials: true
       });
-      
-       
-      if(response.status===200 && response.data.image) {
-        setUserInfo({...userInfo, image: response.data.image});
-        toast.success("Image updated successfully.")
+
+      if (response.status === 200 && response.data.image) {
+        setUserInfo({ ...userInfo, image: response.data.image });
+        toast.success("Image updated successfully.");
       }
-
-       
-
     } else {
       toast.error("No file selected.");
-    return;
+      return;
     }
   };
 
   const handleDeleteImage = async () => {
     try {
       const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, {
-        withCredentials: true,
+        withCredentials: true
       });
-      if(response.status===200) {
-        setUserInfo({...userInfo, image: null});
+      if (response.status === 200) {
+        setUserInfo({ ...userInfo, image: null });
         toast.success("Image removed successfully.");
         setImage(null);
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
 
   useEffect(() => {
     console.log("Image URL in state:", image);
   }, [image]);
-  
 
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
@@ -153,14 +143,13 @@ const Profile = () => {
             onMouseLeave={() => setHovered(false)}
           >
             <Avatar className="h-32 w-32 md:w-48 md:h-48 rounded-full overflow-hidden ">
-              {image ? 
+              {image ? (
                 <AvatarImage
                   src={image}
-                  
                   alt="User Avatar"
                   className="object-cover w-full h-full bg-black"
                 />
-               : (
+              ) : (
                 <div
                   className={`uppercase h-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center rounded-full ${getColor(
                     selectedColor
@@ -175,9 +164,7 @@ const Profile = () => {
             {hovered && (
               <div
                 className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full cursor-pointer"
-                onClick={ 
-                  image ? handleDeleteImage : handleFileInputClick
-                }
+                onClick={image ? handleDeleteImage : handleFileInputClick}
               >
                 {image ? (
                   <FaTrash className="text-white text-3xl cursor-pointer" />

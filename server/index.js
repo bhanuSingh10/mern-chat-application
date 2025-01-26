@@ -32,11 +32,7 @@ const server = app.listen(port, () => {
   console.log(`Server running at PORT: ${port}`);
 });
 
-// Debug database connection URL
-// if (!databaseURL) {
-//   console.error("DATABASE_URL is not defined in the .env file");
-//   process.exit(1);
-// }
+ 
 
 console.log("Connecting to MongoDB...");
 
