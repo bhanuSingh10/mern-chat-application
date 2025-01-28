@@ -4,8 +4,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import route from "./routes/authRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import setupSocket from "./socket.js";
+import messagesRoutes from "./routes/messagesRoutes.js";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -27,12 +29,14 @@ app.use(express.json());
 
 // Correct the route prefix
 app.use("/api/auth", route);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/messages", messagesRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server running at PORT: ${port}`);
 });
 
- 
+setupSocket(server);
 
 console.log("Connecting to MongoDB...");
 

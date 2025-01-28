@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Background from "@/assets/login2.png";
-import Victory from "@/assets/victory.png";
+import Victory from "@/assets/victory.svg";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
 import { Input } from "@/components/ui/input";

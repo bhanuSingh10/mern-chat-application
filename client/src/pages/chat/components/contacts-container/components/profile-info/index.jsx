@@ -12,6 +12,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { IoLogOut, IoPawOutline, IoPowerOutline } from "react-icons/io5";
 import { Navigate, useNavigate } from "react-router-dom";
 import { apiClient } from "@/lib/api-client";
+import { getColor } from "@/lib/utils";
 
 const ProfileInfo = () => {
   const { userInfo, setUserInfo } = useAppStore();
@@ -46,8 +47,9 @@ const ProfileInfo = () => {
                 className="object-cover w-full h-full bg-black"
               />
             ) : (
+              // changed
               <div
-                className={`uppercase h-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${userInfo.color}`}
+                className={`uppercase h-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${ getColor(userInfo.color)}`}
               >
                 {userInfo.firstName
                   ? userInfo.firstName.charAt(0)

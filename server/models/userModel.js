@@ -4,8 +4,11 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, "email is required."],
-    unique: true
+    required: [true, "Email is required."], 
+    unique: true, 
+    lowercase: true,
+    trim: true, 
+    match: [/.+@.+\..+/, "Please provide a valid email address."], // Regex for email validation
   },
   password: {
     type: String,
