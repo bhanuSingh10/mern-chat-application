@@ -1,7 +1,29 @@
+import { useEffect } from "react";
 import NewDM from "./components/new-dm";
 import ProfileInfo from "./components/profile-info";
+import { apiClient } from "@/lib/api-client";
+import { GET_DM_CONTACTS_ROUTES } from "@/utils/constants";
+import { useAppStore } from "@/store";
+import ContactList from "@/components/contact-list";
 
 const ContactsContainer = () => {
+  const { setDirectMessagescontacts, directMessagesContacts } = useAppStore();
+
+  useEffect(() => {
+    try {
+      const getContacts = async () => {
+        const response = await apiClient.get(GET_DM_CONTACTS_ROUTES, {
+          withCredentials: true
+        });
+        if (response.data.contacts) {
+          setDirectMessagescontacts(response.data.contacts);
+        }
+      };
+      getContacts();
+    } catch (error) {
+      console.log({ error });
+    }
+  }, []);
   return (
     <div className="relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full">
       <div className="pt-3">
@@ -10,7 +32,10 @@ const ContactsContainer = () => {
       <div className="my-5">
         <div className="flex items-center justify-between pr-10">
           <Title text="Direct messages" />
-          <NewDM/>
+          <NewDM />
+        </div>
+        <div className="max-h-[38vh] overflow-y-auto scrollbar-hidden ">
+          <ContactList contacts={directMessagesContacts} />
         </div>
       </div>
       <div className="my-5">
@@ -36,7 +61,7 @@ const Logo = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {" "}
+        
         <path
           d="M55.5 0H77.5L58.5 32H36.5L55.5 0Z"
           className="ccustom"

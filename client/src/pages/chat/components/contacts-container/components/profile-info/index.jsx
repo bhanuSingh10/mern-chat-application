@@ -49,7 +49,7 @@ const ProfileInfo = () => {
             ) : (
               // changed
               <div
-                className={`uppercase h-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${ getColor(userInfo.color)}`}
+                className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${ getColor(userInfo.color)}`}
               >
                 {userInfo.firstName
                   ? userInfo.firstName.charAt(0)
