@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Background from "@/assets/login2.png";
+import Background from "../../assets/login.png";
 import Victory from "@/assets/victory.svg";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
@@ -60,11 +60,13 @@ const Auth = () => {
         );
         console.log("Login successful:", response.data);
         toast.success("Login successful!");
-
+       
+        
         if (response.data.user.id) {
+          
           setUserInfo(response.data.user);
-          if (response.data.user.profileSetup) navigate("/chat");
-          else navigate("/profile");
+          if (response.data.user.profileSetup) {navigate("/chat");}
+          else {navigate("/profile")};
         }
       } catch (error) {
         console.error("Login failed:", error.response?.data || error.message);
@@ -87,7 +89,7 @@ const Auth = () => {
         console.log("Signup successful:", response.data);
         toast.success("Signup successful!");
 
-        if (response.status == 201) {
+        if (response.status === 201) {
           setUserInfo(response.data.user);
           navigate("/profile");
         }
@@ -177,8 +179,8 @@ const Auth = () => {
             </Tabs>
           </div>
         </div>
-        <div className="hidden xl :flex justify-center items-center">
-          <img src={Background} alt="background login" className="h-[700px]" />
+        <div className=" xl :flex justify-center items-center">
+          <img src ={Background} alt="background login" className="h-[470px] mt-10" />
         </div>
       </div>
     </div>

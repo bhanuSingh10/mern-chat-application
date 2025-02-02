@@ -75,13 +75,9 @@ const NewDM = () => {
       </TooltipProvider>
 
       <Dialog open={openNewContactModel} onOpenChange={setopenNewContactModel}>
-        {/* <DialogTrigger>Open</DialogTrigger> */}
         <DialogContent className="bg-[#181920] border-none text-white w-[400px] h-[400px] flex flex-col">
           <DialogHeader>
             <DialogTitle>Select a contact</DialogTitle>
-            {/* <DialogDescription>
-        
-      </DialogDescription> */}
           </DialogHeader>
           <div>
             <Input

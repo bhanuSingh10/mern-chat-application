@@ -7,6 +7,7 @@ import route from "./routes/authRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import setupSocket from "./socket.js";
 import messagesRoutes from "./routes/messagesRoutes.js";
+import channelRoutes from "./routes/ChannelRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use("/uploads/profiles", express.static("uploads/profiles"));
+app.use("/uploads/files",express.static("uploads/files"))
 
 app.use(cookieParser());
 app.use(express.json());
@@ -31,6 +33,7 @@ app.use(express.json());
 app.use("/api/auth", route);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/channel", channelRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server running at PORT: ${port}`);

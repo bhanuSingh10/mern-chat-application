@@ -36,6 +36,26 @@ export const searchContacts = async (req, res, next) => {
   }
 };
 
+export const getAllContacts = async (req, res, next) => {
+  try {
+    const users = await User.find(
+      { _id: { $ne: req.userId } },
+      "firstName lastName _id email"
+    );
+
+    const contacts = users.map((user) => ({
+      label: user.firstName ? `${user.firstName} ${user.lastName}` : user.email,
+      value: user._id
+    }));
+
+    return res.status(200).json({
+      contacts
+    });
+  } catch (err) {
+    console.error("Error in getAllContacts:", err);
+    return res.status(500).send("Internal server error!");
+  }
+};
 
 export const getContactsForDMList = async (req, res, next) => {
   try {

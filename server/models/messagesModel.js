@@ -20,18 +20,18 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: function () {
       return this.messageType === "text";
-    },
+    }
   },
   fileUrl: {
     type: String,
     required: function () {
       return this.messageType === "file";
-    },
+    }
   },
   timestamp: {
-    type: Date, 
-    default: Date.now,
-  },
+    type: Date,
+    default: Date.now
+  }
 });
 
 const Message = mongoose.model("Messages", messageSchema);
