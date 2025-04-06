@@ -8,6 +8,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import setupSocket from "./socket.js";
 import messagesRoutes from "./routes/messagesRoutes.js";
 import channelRoutes from "./routes/ChannelRoutes.js";
+import { all } from "axios";
 
 dotenv.config();
 
@@ -15,9 +16,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 const databaseURL = process.env.DATABASE_URL;
 
+const allowedOrigins = [
+  "https://mern-chat-application-ecru.vercel.app",
+  "http://localhost:5173" 
+];
+
 app.use(
   cors({
-    origin: [process.env.ORIGIN],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true
   })
