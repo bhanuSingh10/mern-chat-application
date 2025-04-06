@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
+
 import { useAppStore } from "@/store";
 
 const Auth = () => {
@@ -89,9 +90,9 @@ const Auth = () => {
         console.log("Signup successful:", response.data);
         toast.success("Signup successful!");
 
+        navigate("/profile");
         if (response.status === 201) {
           setUserInfo(response.data.user);
-          navigate("/profile");
         }
       } catch (error) {
         console.error("Signup failed:", error.response?.data || error.message);

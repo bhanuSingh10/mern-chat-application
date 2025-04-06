@@ -18,8 +18,9 @@ const PrivateRoute = ({ children }) => {
 const AuthRoute = ({ children }) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
-  return isAuthenticated ? <Navigate to="/auth" /> : children;
+  return isAuthenticated ? <Navigate to={userInfo.profileSetup ? "/chat" : "/profile"} /> : children;
 };
+
 
 function App() {
   const { userInfo, setUserInfo } = useAppStore();

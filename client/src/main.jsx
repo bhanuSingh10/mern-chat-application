@@ -7,9 +7,11 @@ import { SocketProvider } from "./context/socketContext";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
+  
   <SocketProvider>
     <App />
     <Toaster closeButton />
   </SocketProvider>
+ 
   // </StrictMode>,
 );
